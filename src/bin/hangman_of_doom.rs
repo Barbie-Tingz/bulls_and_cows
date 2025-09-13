@@ -85,6 +85,21 @@ stages[lives as usize] // this returns the array element, that is why there is n
 }
 
 
+    // rendering mask from the secret word dynamically to and reveals the letters when the usre guesses them correctly 
+    fn render_mask(intial_mask: &[char]) -> String {
+        let mut output_string = String::new(); 
+
+        for i in 0..(intial_mask.len()) {
+            if i != 0 {
+                output_string.push(' '); // use push(' ') to add space 
+            }
+            let ch = intial_mask[i]; // this is used to push the current char from the mask
+            output_string.push(ch); 
+        }
+        output_string
+    }
+
+
 fn main() {
     
     println!("Welcome to Hangman of Doom!"); 
@@ -95,31 +110,22 @@ fn main() {
         println!("{}", display_stage(i)); 
     }
     println!("End of loop!"); 
- */ 
-    let secret_word = "orc"; 
-    let mut intial_mask = &secret_word.len(); // uses the length of the secret word, not hardcoded
+ */  
 
-    // rendering mask 
-    fn render(intial_mask) {
-        let mut output_string = ""; 
 
-        for i in 0..(intial_mask.len()-1) {
-            if i != 0 {
-                " " + output_string; 
-            }
-            intial_mask[i] + output_string
-        }
-        output_string
-    }
- 
+    let secret_word = "orc"; // test by changing the word
+    // this dynamically uses the secret word provided to dynamically masks the word with the amount of letters from the secret_word bank
+    let mut intial_mask: Vec<char> = vec!['_'; secret_word.len()]; 
 
-    // this variable stores mutable user_input. 
+    println!("{}", render_mask(&intial_mask)); 
+
+/*     // this variable stores mutable user_input. 
    let mut guess_input = String::new();
    io::stdin() // standard input handle 
        .read_line(&mut guessed_letters) // read a line of input into the mutable String
        .expect("Failed to read word. Please try again."); // handle potential errors 
     
-
+ */
 //    println!("You entered: {},", guessed_letters.trim()); 
 
 
