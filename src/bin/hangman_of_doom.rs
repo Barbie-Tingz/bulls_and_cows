@@ -41,7 +41,7 @@ fn display_stage(lives: usize) -> &'static str {
     +---+
     |   |
     O   |
-   \\|  |
+   \\|   |
         |
         |
   =========",
@@ -51,7 +51,7 @@ fn display_stage(lives: usize) -> &'static str {
     +---+
     |   |
     O   |
-   \\|/ |
+   \\|/  |
         |
         |
   =========", 
@@ -61,7 +61,7 @@ fn display_stage(lives: usize) -> &'static str {
     +---+
     |   |
     O   |
-   \\|/ |
+   \\|/  |
    /    |
         |
   =========", 
@@ -71,7 +71,7 @@ fn display_stage(lives: usize) -> &'static str {
     +---+
     |   |
     O   |
-   \\|/ |
+   \\|/  |
    / \\ |
         |
   =========",
@@ -80,7 +80,7 @@ fn display_stage(lives: usize) -> &'static str {
 // clamping so that code does not panic when it reaches a highet number than 6
 let max_index = stages.len() -1; // instead of having the it clamped it takes the length of the frames so it won't panic
 
-stages[lives as usize] // this returns the array element, that is why there is no semicolon
+stages[max_index as usize] // this returns the array element, that is why there is no semicolon
 // now you index with clamped not lives so that the code does not panic when it reach > 6 or < 0
 }
 
@@ -104,14 +104,13 @@ fn main() {
     
     println!("Welcome to Hangman of Doom!"); 
 
-/*     // check so code does not panic when a bigger number than 6 is passed. Test check ONLY!
+     // check so code does not panic when a bigger number than 6 is passed. Test check ONLY!
      for i in 0..=9 {
         println!("Stage number: {}", i); 
         println!("{}", display_stage(i)); 
     }
     println!("End of loop!"); 
- */  
-
+ 
 
     let secret_word = "orc"; // test by changing the word
     // this dynamically uses the secret word provided to dynamically masks the word with the amount of letters from the secret_word bank
