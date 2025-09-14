@@ -128,7 +128,6 @@ fn read_guess(guessed_letters: &[char]) -> char {
 
        // lowercase only
        let ch_lowercase = ch.to_ascii_lowercase(); 
-
        // this is checking for duplicate attempts and then requests to enter another letter.
        if guessed_letters.contains(&ch_lowercase) {
         println!("You already guessed '{}'. Try another letter.", ch_lowercase); 
@@ -152,18 +151,25 @@ fn main() {
  */  
     // render secret word + mask 
     let secret_word = "goblin"; // test by changing the word
+
+    // max lives for user 
+    let MAX_LIVES = 6; 
+    let mut lives = MAX_LIVES; 
+
     // this dynamically uses the secret word provided to dynamically masks the word with the amount of letters from the secret_word bank
-    let intial_mask: Vec<char> = vec!['_'; secret_word.len()]; 
-    println!("{}", render_mask(&intial_mask)); 
+    let mut mask: Vec<char> = vec!['_'; secret_word.len()]; 
+    println!("{}", render_mask(&mask)); 
 
-    // max lives 
-    let lives = display_stage(max_index); 
-    // read user input + store char
-    let guessed_letters: Vec<char> = vec![]; 
+    // compute a stage index from lives using mapping & clamp
+    display_stage(lives[0..6]);  
 
-    while (lives > 0) && (!intial_mask) {
-        display_stage(lives); 
-        render_mask(mask);
+    // each function that is being used is referencing the parameter 
+    while (lives > 0) && (!is_solved(&mask)) {
+        println!(display_stage(stage_index_from_lives(lives))); 
+        println!(render_mask(&mask);)
+        guess = read_guess(&guessed_letters); 
+        apply_guess(secret_word, &mut mask, &mut lives, guess); 
+
         println!("{}, {}", lives, guessed_letters); 
     }
 
