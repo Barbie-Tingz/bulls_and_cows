@@ -99,21 +99,43 @@ fn render_mask(intial_mask: &[char]) -> String {
     output_string
 }
 
-fn read_guess(guessed_letters: &Vec<char>) -> char {
+
+// created function read the user input character 
+fn read_guess(guessed_letters: &[char]) -> char { 
    // this variable stores mutable user_input. 
-   let mut guess_input = String::new();
-   io::stdin() // standard input handle 
+   loop {
+    let mut guess_input = String::new();
+
+    io::stdin() // standard input handle 
        .read_line(&mut guess_input) // read a line of input into the mutable String
-       .expect("Failed to read letter. Please try again."); // handle potential errors 
+       .expect("Failed to read input"); 
+    
+     let trimmed = guess_input.trim(); // trimming extra whitespace
 
-    let letter_guessed = guess_input.trim().chars().is_alphabetic(false).to_ascii_lowercase(); 
+    
+       if trimmed.chars().count() != 1 { // conditional to ensure user inputs 1 character
+        println!("Enter ONE letter!");
+        continue; 
+       }
 
-    if letter_guessed > 1 {
-    println!("Too many letters!"); 
-    } else {
-    println!("You guessed : {},", letter_guessed); 
-    }
+       let ch = trimmed.chars().next().unwrap();
 
+       // character is alphabetic only 
+       if !ch.is_alphabetic() {
+        println!("Letter only (a-z)."); 
+        continue; 
+       }
+
+       // lowercase only
+       let ch_lowercase = ch.to_ascii_lowercase(); 
+
+       // this is checking for duplicate attempts and then requests to enter another letter.
+       if guessed_letters.contains(&ch_lowercase) {
+        println!("You already guessed '{}'. Try another letter.", ch_lowercase); 
+        continue; 
+       }
+       return ch_lowercase; 
+   }
 }
 
 
@@ -121,24 +143,28 @@ fn main() {
     
     println!("Welcome to Hangman of Doom!"); 
 
-/*   // check so code does not panic when a bigger number than 6 is passed. Test check ONLY!
+/*    // check so code does not panic when a bigger number than 6 is passed. Test check ONLY!
      for i in 0..=9 {
         println!("Stage number: {}", i); 
         println!("{}", display_stage(i)); 
     }
     println!("End of loop!"); 
- */ 
-
+ */  
+    // render secret word + mask 
     let secret_word = "goblin"; // test by changing the word
     // this dynamically uses the secret word provided to dynamically masks the word with the amount of letters from the secret_word bank
     let intial_mask: Vec<char> = vec!['_'; secret_word.len()]; 
-
     println!("{}", render_mask(&intial_mask)); 
 
-    // this should return the letter from read guess
-    println!("{}", read_guess(&guessed_letters)); 
+    // max lives 
+    let lives = display_stage(max_index); 
+    // read user input + store char
+    let guessed_letters: Vec<char> = vec![]; 
 
-//    println!("You entered: {},", guessed_letters.trim()); 
-
+    while (lives > 0) && (!intial_mask) {
+        display_stage(lives); 
+        render_mask(mask);
+        println!("{}, {}", lives, guessed_letters); 
+    }
 
 }
