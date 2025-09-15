@@ -137,6 +137,36 @@ fn read_guess(guessed_letters: &[char]) -> char {
    }
 }
 
+// enum for the outcome of the apply_guess function
+enum Outcome {
+  Hit(char), 
+  Miss(char),
+};
+
+// checks the new guess against the secret_word aka "goblin"
+fn apply_guess(secret_word: &str, mask: &mut Vec<char>, lives: &mut usize, guess: char) -> Outcome {
+  // inputs : secret word(lowercase), 
+  // the mask(writable) = secret's length, holds '_' or revealed lettters
+  // lives counter(writable), the new guess(char)
+  // outputs: hit or miss
+
+  let mut found: bool = false; // this is if the guess matched any letter in the secret word while we do a check
+
+  for (i, ch) in secret_word.chars().enumerate() { // goes through all indexed characters
+    if ch == guess {
+      mask[i] = guess; 
+      found = true; 
+    }
+  }
+    // returns hit or miss depending on if the guess is correct
+  if found {
+    return Outcome::Hit(guess);
+    } else {
+      *lives -= 1;
+      return Outcome::Miss(guess); 
+    }
+}
+
 
 fn main() {
     
