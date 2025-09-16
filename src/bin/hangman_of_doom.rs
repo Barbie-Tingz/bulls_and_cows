@@ -141,10 +141,10 @@ fn read_guess(guessed_letters: &[char]) -> char {
 enum Outcome {
   Hit(char), 
   Miss(char),
-};
+}
 
 // checks the new guess against the secret_word aka "goblin"
-fn apply_guess(secret_word: &str, mask: &mut Vec<char>, lives: &mut usize, guess: char) -> Outcome {
+fn apply_guess(secret_word: &str, mask: &mut Vec<char>, lives: &mut u32, guess: char) -> Outcome {
   // inputs : secret word(lowercase), 
   // the mask(writable) = secret's length, holds '_' or revealed lettters
   // lives counter(writable), the new guess(char)
@@ -167,6 +167,16 @@ fn apply_guess(secret_word: &str, mask: &mut Vec<char>, lives: &mut usize, guess
     }
 }
 
+// this loops through all of the characters in the mask to see if there are any missing letters
+fn is_solved(mask: &[char]) -> bool{
+  for ch in mask {
+    if *ch == '_' {
+      return false;
+    }
+  }
+  true
+}
+
 
 fn main() {
     
@@ -183,7 +193,7 @@ fn main() {
     let secret_word = "goblin"; // test by changing the word
 
     // max lives for user 
-    let MAX_LIVES = 6; 
+    const MAX_LIVES: u32  = 6; 
     let mut lives = MAX_LIVES; 
 
     // guessed letters is the vector that hold the users guesses 
@@ -195,18 +205,25 @@ fn main() {
 
     // each function that is being used is referencing the parameter 
     while (lives > 0) && (!is_solved(&mask)) {
-        let mut guess = read_guess(&guessed_letters);
-        guessed_letters.push(guess); // holding the previous guesses within the vector guess_letters
-        let stage_index_from_lives = (MAX_LIVES - lives); 
-
-        if stage_index_from_lives > max_frame()
-
-        println!("{}", display_stage(stage_index_from_lives(lives))); 
+        let stage_idx = MAX_LIVES - lives; 
+        println!("{}", display_stage(stage_idx.try_into().unwrap())); 
         println!("{}", render_mask(&mask));
-        guess = read_guess(&guessed_letters); 
-        apply_guess(secret_word, &mut mask, &mut lives, guess); 
 
-        println!("{}, {}", lives, guessed_letters); 
+        println!("Lives: {}", lives); 
+
+        let guess = read_guess(&guessed_letters);
+        println!("Guess: {}", guess); 
+
+        guessed_letters.push(guess); // holding the previous guesses within the vector guess_letters
+        let outcome = apply_guess(secret_word, &mut mask, &mut lives, guess); 
+         
+        match outcome {
+          Outcome::Hit(ch) => println!("Good guess!'{}' is in the spooky word.", ch), 
+          Outcome::Miss(ch) => println!("Sorry, '{}' is not in the word", ch),
+        }
+        println!("{}", display_stage(stage_idx.try_into().unwrap())); 
+
+        println!("{}, {:#?}", lives, guessed_letters); 
     }
 
 }
