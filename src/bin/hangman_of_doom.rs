@@ -186,17 +186,23 @@ fn main() {
     let MAX_LIVES = 6; 
     let mut lives = MAX_LIVES; 
 
+    // guessed letters is the vector that hold the users guesses 
+    let mut guessed_letters: Vec<char> = vec![];
+  
     // this dynamically uses the secret word provided to dynamically masks the word with the amount of letters from the secret_word bank
     let mut mask: Vec<char> = vec!['_'; secret_word.len()]; 
     println!("{}", render_mask(&mask)); 
 
-    // compute a stage index from lives using mapping & clamp
-    display_stage(lives[0..6]);  
-
     // each function that is being used is referencing the parameter 
     while (lives > 0) && (!is_solved(&mask)) {
-        println!(display_stage(stage_index_from_lives(lives))); 
-        println!(render_mask(&mask);)
+        let mut guess = read_guess(&guessed_letters);
+        guessed_letters.push(guess); // holding the previous guesses within the vector guess_letters
+        let stage_index_from_lives = (MAX_LIVES - lives); 
+
+        if stage_index_from_lives > max_frame()
+
+        println!("{}", display_stage(stage_index_from_lives(lives))); 
+        println!("{}", render_mask(&mask));
         guess = read_guess(&guessed_letters); 
         apply_guess(secret_word, &mut mask, &mut lives, guess); 
 
