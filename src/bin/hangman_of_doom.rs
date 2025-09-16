@@ -4,7 +4,7 @@
 
 use std::io; 
 
-fn display_stage(lives: usize) -> &'static str {
+fn display_stage(index: usize) -> &'static str {
     let stages = [
     // empty gallows; stage 0
    "
@@ -78,9 +78,12 @@ fn display_stage(lives: usize) -> &'static str {
 ];
 
 // clamping so that code does not panic when it reaches a highet number than 6
-let max_index = stages.len() -1; // instead of having the it clamped it takes the length of the frames so it won't panic
+let max_index = stages.len(); // instead of having the it clamped it takes the length of the frames so it won't panic
 
-stages[max_index as usize] // this returns the array element, that is why there is no semicolon
+// clamped the index into a the safe range
+let clamped = index.clamp(0, max_index); 
+
+stages[clamped] // this returns the array element, that is why there is no semicolon
 // now you index with clamped not lives so that the code does not panic when it reach > 6 or < 0
 }
 
@@ -212,18 +215,17 @@ fn main() {
         println!("Lives: {}", lives); 
 
         let guess = read_guess(&guessed_letters);
-        println!("Guess: {}", guess); 
 
         guessed_letters.push(guess); // holding the previous guesses within the vector guess_letters
         let outcome = apply_guess(secret_word, &mut mask, &mut lives, guess); 
-         
+        
         match outcome {
           Outcome::Hit(ch) => println!("Good guess!'{}' is in the spooky word.", ch), 
           Outcome::Miss(ch) => println!("Sorry, '{}' is not in the word", ch),
         }
         println!("{}", display_stage(stage_idx.try_into().unwrap())); 
 
-        println!("{}, {:#?}", lives, guessed_letters); 
+        println!("Lives left: {}, Guess Letters: {:?}", lives, guessed_letters); 
     }
 
 }
