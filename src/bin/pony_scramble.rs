@@ -2,40 +2,61 @@
 
 /* Pony Scramble 
 
-1. IESPK 
-2. HSRATTIGL 
-3. TIIHLWGT ALKPRSE 
-4. SCENSIRP ALNU 
-5. FRUSTEYLHT 
-6. SRNISPEC TEEALSIC 
-7. ASOWLNKFE 
-8. IINEKP IPE 
-9. IGB TSAINOHCM 
-10. PUOND ACEK 
-11. AECPLPKAJ 
-12. NNSHIGI ORUARM 
-13. AITYRR 
-14. OWNABRI ASDH 
-15. NUPIKPM EAKC 
-
-Answer Key 
-1. Twilight Sparkle
-2. Starlight
-3. Shining Armour
-4. Princess Celestia
-5. Princess Luna
-6. Snowflake
-7. Applejack
-8. Fluttershy
-9. Rarity
-10. Spike
-11. Rainbow Dash
-12. Pinkie Pie
-13. Big Macintosh
-14. Pound Cake
-15. Pumpkin Cake
+1. TIIHLWGT ALKPRSE → TWILIGHT SPARKLE
+2. HSRATTIGL → STARLIGHT
+3. NNSHIGI ORUARM → SHINING ARMOUR
+4. SRNISPEC TEEALSIC → PRINCESS CELESTIA
+5. SCENSIRP ALNU → PRINCESS LUNA
+6. ASOWLNKFE → SNOWFLAKE
+7. AECPLPKAJ → APPLEJACK
+8. FRUSTEYLHT → FLUTTERSHY
+9. AITYRR → RARITY
+10. IESPK → SPIKE
+11. OWNABRI ASDH → RAINBOW DASH
+12. IINEKP IPE → PINKIE PIE
+13. IGB TSAINOHCM → BIG MACINTOSH
+14. PUOND ACEK → POUND CAKE
+15. NUPIKPM EAKC → PUMPKIN CAKE
 */
+
+use std::collections::HashMap; 
+use std:io;
+
+
+// use the hashmap to index through all of the words
+fn display_stage() -> {
+let mut pony_names = HashMap::new(); 
+
+// pony names 
+pony_names.insert(
+    "ITIIHLWGT ALKPRSE".to_string(),
+    "TWILIGHT SPARKLE".to_string(),
+); 
+pony_names.insert()
+
+}
+
+enum Outcome {
+    Correct(&str), 
+    Wrong(&str),
+}
+// render the mask for the unscrambled word
+fn render_mask() -> {
+
+}
+
+// reading the users guess by matching it against the word in the bank
+fn read_guess() -> {
+
+}
+
+
 
 fn main() {
     println!("Welcome to Pony Scrambler"); 
+
+    while {
+        // create a println! with the scrambled word and then prompt the user for there attempt.
+        // show attempts 
+    }
 }

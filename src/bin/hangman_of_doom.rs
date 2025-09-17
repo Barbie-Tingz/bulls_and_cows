@@ -2,7 +2,32 @@
 
 // there are no accented letters or emojis in this project
 
+/* the spooky word bank : 
+agonizing, bizarre, cauldron, cemetery, phantom, enchanting, frankenstein, horror, laboratory, masquerade, nefarious,
+poltergeist, revolting, scarecrow, sorcerer, transylvania, vengeance, werewolf, zombie
+*/
+
+
+/*
+
+\\                  // || ||\\    || ||\\    || ||======  ||=====\\  ||
+ \\       __       //  || || \\   || || \\   || ||        ||     ||  ||
+  \\     //\\     //   || ||  \\  || ||  \\  || ||====    ||====\\   ||
+   \\   //  \\   //    || ||   \\ || ||   \\ || ||        ||     \\  ||
+    \\=//    \\=//     || ||    \\|| ||    \\|| ||======= ||      \\ ++
+
+||        ||======|| ========  ||======= ||=====\\                   
+||        ||      || ||        ||        ||      ||         
+||        ||      || ||        ||        ||=====//             
+||        ||      || ||=====|| ||====    ||     \\            
+||        ||      ||        || ||        ||      \\            
+||======= ||======|| =======|| ||======= ||       \\          
+*/
+
+
 use std::io; 
+use rand::seq::SliceRandom; 
+use rand::thread_rng;
 
 fn display_stage(index: usize) -> &'static str {
     let stages = [
@@ -180,6 +205,25 @@ fn is_solved(mask: &[char]) -> bool{
   true
 }
 
+ fn winner_loser() -> 'static &str {
+  if is_solved(&mask) == true {
+    println!("
+\\\                  // || ||\\\    || ||\\\    || ||======  ||=====\\\  ||
+ \\\       __       //  || || \\\   || || \\\   || ||        ||     ||  ||
+  \\\     //\\\     //   || ||  \\\  || ||  \\\  || ||====    ||====\\\   ||
+   \\\   //  \\\   //    || ||   \\\ || ||   \\\ || ||        ||     \\\  ||
+    \\\\=//    \\\\=//     || ||    \\\|| ||    \\\|| ||======= ||      \\\ ++"); 
+  }else {
+    println!("
+||        ||======|| ========  ||======= ||=====\\\                  
+||        ||      || ||        ||        ||      ||           
+||        ||      || ||        ||        ||=====//               
+||        ||      || ||=====|| ||====    ||     \\\             
+||        ||      ||        || ||        ||      \\\             
+||======= ||======|| =======|| ||======= ||       \\\ ");
+  }
+}
+
 
 fn main() {
     
@@ -192,8 +236,11 @@ fn main() {
     }
     println!("End of loop!"); 
  */  
+    let word_bank: Vec<&str> = vec!["agonizing", "bizarre", "cauldron", "cemetery", "phantom", "enchanting", "frankenstein", "horror", "laboratory", "masquerade", "nefarious",
+    "poltergeist", "revolting", "scarecrow", "sorcerer", "transylvania", "vengeance", "werewolf", "zombie"
+];
     // render secret word + mask 
-    let secret_word = "goblin"; // test by changing the word
+    let secret_word = word_bank.choose(&mut thread_rng()).unwrap();
 
     // max lives for user 
     const MAX_LIVES: u32  = 6; 
@@ -213,7 +260,11 @@ fn main() {
         println!("{}", render_mask(&mask));
 
         println!("Lives: {}", lives); 
+        println!("Enter a letter: "); 
 
+        use std::io::Write;
+        io::stdout().flush().unwrap(); // .flush(): flushes the buffer; ensure output is displayed immediately
+        // .unwrap(): handles potential errors in the flush operation      
         let guess = read_guess(&guessed_letters);
 
         guessed_letters.push(guess); // holding the previous guesses within the vector guess_letters
@@ -225,7 +276,10 @@ fn main() {
         }
         println!("{}", display_stage(stage_idx.try_into().unwrap())); 
 
-        println!("Lives left: {}, Guess Letters: {:?}", lives, guessed_letters); 
+        println!("Lives left: {}, Guessed Letters: {:?}", lives, guessed_letters); 
+
+        println!("Secret Word : {}", secret_word);
+
     }
 
 }
